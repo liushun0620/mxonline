@@ -1,7 +1,8 @@
 from django.db import models
-
+from apps.organization.models import CourseOrg
 
 class Courses(models.Model):
+    course_org = models.ForeignKey(CourseOrg, verbose_name="课程机构", on_delete=models.CASCADE,null=True, blank=True)
     name = models.CharField("课程名称", max_length=50, default='')
     desc = models.CharField("课程描述", max_length=500, default='')
     detail = models.TextField("课程详情", default='')
@@ -18,6 +19,8 @@ class Courses(models.Model):
         verbose_name = '课程'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
 
 class Lesson(models.Model):
     """
@@ -34,6 +37,8 @@ class Lesson(models.Model):
         verbose_name = '章节'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
 
 
 
@@ -48,6 +53,8 @@ class Video(models.Model):
         verbose_name = '视频'
         verbose_name_plural = verbose_name
 
+    def __str__(self):
+        return self.name
 
 class CourseResource(models.Model):
     course = models.ForeignKey("course.Courses", verbose_name="课程", on_delete=models.CASCADE)
@@ -59,3 +66,6 @@ class CourseResource(models.Model):
     class Meta:
         verbose_name = '课程资源'
         verbose_name_plural = verbose_name
+
+    def __str__(self):
+        return self.name

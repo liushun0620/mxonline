@@ -16,12 +16,23 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
-from mxonline.settings import MEDIA_ROOT
+from apps.users.views import LoginView, logout_user
+
+
+# 下面的两个引入是为了解决图片上传后之后不能在前端展示的问题
+from mxonline.settings import MEDIA_URL, MEDIA_ROOT
+from django.conf.urls.static import static
+
 # import xadmin
 # xadmin 安装命令
 # 'pip install git+git://github.com/sshwsfc/xadmin.git@django2'
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', TemplateView.as_view(template_name='index.html'), name='index'),
+    path('test/', TemplateView.as_view(template_name='org_base.html'), name='test'),
     path('users/', include('users.urls', namespace='users')),
-]
+    path('org/', include('organization.urls', namespace='organization')),
+    path('captcha/', include('captcha.urls')),
+
+
+] + static(MEDIA_URL, document_root=MEDIA_ROOT,)  # 图片上传后之后不能在前端展示的解决方案

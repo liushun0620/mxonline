@@ -36,22 +36,24 @@ INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'django.contrib.sessions',
+    'django.contrib.sessions',   # 用户登录相关的应用, 影响自动登录
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.users',
     'apps.course',
     'apps.operation',
     'apps.organization',
+    'captcha',
+    'pure_pagination',
     # 'xadmin'
 ]
 
 # 因为用户信息表继承了django.AbstractUser模型, 需要在此配置
 AUTH_USER_MODEL = 'users.UserProfile'
 # users 应用, 让后台可以使用用户名或邮箱或手机号码等登录
-# AUTHENTICATION_BACKEND = (
-#     'apps.users.views.CustomBackend',
-# )
+AUTHENTICATION_BACKEND = (
+    'apps.users.views.CustomBackend',
+)
 
 
 MIDDLEWARE = [
@@ -159,3 +161,23 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 #     'MARGIN_PAGES_DISPLAYED': 2,
 #     'SHOW_FIRST_PAGE_WHEN_INVALID': True,
 # }
+
+# 使用django自带的模块发送邮件
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.163.com'   # 选择的代理邮箱
+EMAIL_PORT = 465    # 端口
+#发送邮件的邮箱
+EMAIL_HOST_USER = 'your eamil'
+#在邮箱中设置的客户端授权密码
+EMAIL_HOST_PASSWORD = 'your password'
+#收件人看到的发件人
+EMAIL_FROM = EMAIL_HOST_USER
+
+
+
+# 分页功能配置
+PAGINATION_SETTINGS = {
+    'PAGE_RANGE_DISPLAYED': 5,
+    'MARGIN_PAGES_DISPLAYED': 2,
+    'SHOW_FIRST_PAGE_WHEN_INVALID': True,
+}
